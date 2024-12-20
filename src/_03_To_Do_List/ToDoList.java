@@ -2,6 +2,9 @@ package _03_To_Do_List;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,7 +22,7 @@ public class ToDoList{
 	static JButton view = new JButton("View Tasks");
 	static JButton remove = new JButton("Remove Tasks");
 	static JButton save = new JButton("Save List");
-	static JButton load = new JButton("Load List"); 
+	static JButton load = new JButton("Load List");
 	
 	public static void main(String[] args) {
 		frame.add(panel);
@@ -36,9 +39,14 @@ public class ToDoList{
 			tasks.add(s);
 		});
 		view.addActionListener(e -> {
+			String s = "";
 			for (int i = 0; i < tasks.size(); i++) {
-				System.out.println(tasks.get(i));
+				s += (tasks.get(i));
+				if (i != tasks.size()-1) {
+					s += "\n";
+				}
 			}
+			JOptionPane.showMessageDialog(null, s);
 		});
 		remove.addActionListener(e -> {
 			String s = JOptionPane.showInputDialog("Enter task index to remove: ");
@@ -58,7 +66,28 @@ public class ToDoList{
 				e1.printStackTrace();
 			}
 		});
-		//load.addActionListener(this);
+		load.addActionListener(e -> {
+			String loc = JOptionPane.showInputDialog("Enter file location: ");
+			try {
+				String ans = "";
+				BufferedReader br = new BufferedReader(new FileReader(loc));
+			
+				String line = br.readLine();
+				while(line != null){
+					ans += line;
+					ans += "\n";
+					line = br.readLine();
+				}
+				JOptionPane.showMessageDialog(null, ans);
+				br.close();
+			} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (IOException e2) {
+			// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+		});
 	}
 	/*
 	 * Create a program with five buttons, add task, view tasks, remove task, save list, and load list. 
@@ -81,3 +110,4 @@ public class ToDoList{
 	 * When the program starts, it should automatically load the last saved file into the list. 
 	 */
 }
+//Copyright © 2024 Joshua Hsu
